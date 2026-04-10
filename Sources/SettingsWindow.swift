@@ -113,6 +113,26 @@ struct SettingsView: View {
 
             Divider()
 
+            // Language settings
+            HStack {
+                Toggle(isOn: $modelState.englishOnly) {
+                    VStack(alignment: .leading, spacing: 2) {
+                        Text("English Only")
+                            .font(.subheadline)
+                            .fontWeight(.medium)
+                        Text("When off, auto-detects language (requires multilingual model)")
+                            .font(.caption)
+                            .foregroundColor(.secondary)
+                    }
+                }
+                .toggleStyle(.switch)
+                .padding(.horizontal)
+                .padding(.vertical, 8)
+                Spacer()
+            }
+
+            Divider()
+
             // Footer with current status
             HStack {
                 if modelState.isCheckingModels {

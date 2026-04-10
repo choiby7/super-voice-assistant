@@ -47,6 +47,13 @@ class ModelStateManager: ObservableObject {
         }
     }
 
+    // MARK: - Language Settings
+    @Published var englishOnly: Bool = true {
+        didSet {
+            UserDefaults.standard.set(englishOnly, forKey: "transcriptionEnglishOnly")
+        }
+    }
+
     // MARK: - Parakeet State
     @Published var loadedParakeetTranscriber: ParakeetTranscriber? = nil
     @Published var parakeetVersion: ParakeetVersion = .v2 {
@@ -89,6 +96,11 @@ class ModelStateManager: ObservableObject {
 
         // Restore the selected WhisperKit model from UserDefaults
         self.selectedModel = UserDefaults.standard.string(forKey: "selectedWhisperModel")
+
+        // Restore English-only setting (defaults to true)
+        if UserDefaults.standard.object(forKey: "transcriptionEnglishOnly") != nil {
+            self.englishOnly = UserDefaults.standard.bool(forKey: "transcriptionEnglishOnly")
+        }
     }
     
     func checkDownloadedModels() async {

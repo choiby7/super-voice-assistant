@@ -313,18 +313,20 @@ class AudioTranscriptionManager {
         print("Transcribing \(audioBuffer.count) samples (\(Double(audioBuffer.count) / sampleRate) seconds) with WhisperKit...")
 
         do {
+            let isEnglishOnly = ModelStateManager.shared.englishOnly
             let transcriptionResult = try await whisperKit.transcribe(
                 audioArray: paddedBuffer,
                 decodeOptions: DecodingOptions(
                     verbose: false,
                     task: .transcribe,
-                    language: "en",
+                    language: isEnglishOnly ? "en" : nil,
                     temperature: 0.0,
                     temperatureFallbackCount: 3,
                     sampleLength: 224,
                     topK: 5,
                     usePrefillPrompt: true,
                     usePrefillCache: true,
+                    detectLanguage: isEnglishOnly ? nil : true,
                     skipSpecialTokens: true,
                     withoutTimestamps: true,
                     clipTimestamps: [],
